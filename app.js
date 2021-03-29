@@ -12,19 +12,20 @@ const contactContent = "Scelerisque eleifend donec pretium vulputate sapien. Rho
 
 const app = express();
 
-const postContainer = [];
-
 // Mongoose Database Section
-mongoose.connect("mongodb://localhost:27017/dailyDB", {useNewUrlParser: true, useNewUrlParser: true});
-
-const dailySchema = mongoose.Schema({
-  tilte: String,
-  post: String
+mongoose.connect("mongodb://localhost:27017/dailyDB", {
+  useNewUrlParser: true,
+  useNewUrlParser: true
 });
 
-const DailyModel = mongoose.model("Compose",dailySchema);
+const dailySchema = mongoose.Schema({
+  title: String,
+  content: String
+});
 
-// App Section
+const DailyModel = mongoose.model("Compose", dailySchema);
+
+// App Setup Section
 
 app.set('view engine', 'ejs');
 
@@ -33,14 +34,19 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(express.static("public"));
 
+// App get req Section
+
 app.get("/", function(req, res) {
 
-  res.render("home", {
-    homeHeader: "Home",
-    homePageContent: homeStartingContent,
-    newPost: postContainer
+  DailyModel.find({}, function(err, results) {
+    res.render("home", {
+      homeHeader: "Home",
+      homePageContent: homeStartingContent,
+      newPost: results
+    });
   });
 });
+
 
 app.get("/about", function(req, res) {
   res.render("about", {
@@ -63,32 +69,52 @@ app.get("/compose", function(req, res) {
 });
 
 app.get("/post/:title", function(req, res) {
-  postContainer.forEach(function(post) {
+  const parameter = req.params.title;
 
-    const parameter = _.lowerCase(req.params.title);
-    const title = _.lowerCase(post.titleItem);
-
-    if (title === parameter) {
+  DailyModel.findOne({
+    _id: parameter
+  }, function(err, results) {
+    if (!err) {
       res.render("post", {
-        title: post.titleItem,
-        content: post.composeItem,
+        title: results.title,
+        content: results.content
       });
     }
+
+
   });
 });
 
 
+// App post req Section
 
 app.post("/compose", function(req, res) {
 
-  const post = {
-    titleItem: req.body.titleInput,
-    composeItem: req.body.composeInput
-  }
-  postContainer.push(post);
+  const titleInput = req.body.titleInput;
+  const contentInput = req.body.composeInput;
+  const post = new DailyModel({
+    title: titleInput,
+    content: contentInput
+  });
+  post.save(function(err, results) {
+    res.redirect("/");
+  });
 
-  res.redirect("/");
 });
+
+
+app.post("/delete",function(req, res){
+   const idPost = req.body.delete;
+  DailyModel.findByIdAndDelete({_id: idPost}, function(err){
+    if(err){
+      console.log(err);
+    }else{
+      console.log("Delete Post is Success");
+      res.redirect("/");
+    }
+  })
+});
+
 
 
 app.listen(3000, function() {

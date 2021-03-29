@@ -6,9 +6,12 @@
 
 
 <% newPost.forEach(function(post){ %>
-<h1><%=post.titleItem%></h1>
+<h1><%=post.title%></h1>
+<form action="/delete" method="post">
+  <p><%=post.content.substring(0,100) + " ..."%> <a href="/post/<%= post._id %>">Read More</a>
+    <button type="submit" name="delete" value="<%= post._id %>">🗑️</button></p>
+</form>
 
-<p><%=post.composeItem.substring(0,100) + " ..."%> <a href="/post/<%=post.titleItem.toLowerCase();%>">Read More</a></p>
 
 <% }); %>
 <%- include("partials/footer"); -%>
