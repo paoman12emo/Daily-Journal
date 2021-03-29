@@ -1,0 +1,14 @@
+<%- include("partials/header"); -%>
+
+<h1><%= homeHeader %></h1>
+
+<p><%= homePageContent%></p>
+
+
+<% newPost.forEach(function(post){ %>
+<h1><%=post.titleItem%></h1>
+
+<p><%=post.composeItem.substring(0,100) + " ..."%> <a href="/post/<%=post.titleItem.toLowerCase();%>">Read More</a></p>
+
+<% }); %>
+<%- include("partials/footer"); -%>
