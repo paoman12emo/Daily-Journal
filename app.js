@@ -13,7 +13,7 @@ const contactContent = "Scelerisque eleifend donec pretium vulputate sapien. Rho
 const app = express();
 
 // Mongoose Database Section
-mongoose.connect("mongodb://localhost:27017/dailyDB", {
+mongoose.connect("mongodb+srv://paoman12emo:paoman12pao@cluster0.oiqrx.mongodb.net/dailyDB?retryWrites=true&w=majority", {
   useNewUrlParser: true,
   useNewUrlParser: true
 });
