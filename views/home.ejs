@@ -6,10 +6,10 @@
 
 
 <% newPost.forEach(function(post){ %>
-<h1><%=post.title%></h1>
+<h1><%=post.title.substring(0,15)%></h1>
 <form action="/delete" method="post">
   <p><%=post.content.substring(0,100) + " ..."%> <a href="/post/<%= post._id %>">Read More</a>
-    <button type="submit" name="delete" value="<%= post._id %>">🗑️</button></p>
+    <button class="delete-button" type="submit" name="delete" value="<%= post._id %>">🗑️</button></p>
 </form>
 
 

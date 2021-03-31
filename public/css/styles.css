@@ -1,3 +1,12 @@
+
+.navbar-brand a{
+  text-decoration: solid;
+  color: black;
+}
+
+.navbar-brand a:hover {
+  color: #1abc9c !important;
+}
 .container-fluid {
     padding-top: 70px;
     padding-bottom: 70px;
@@ -16,11 +25,12 @@
 }
 
 .footer-padding {
-	padding-bottom: 60px;
+ position: initial;
+	width: 100%;
+  
 }
 
 .footer {
-	position: absolute;
 	text-align: center;
 	bottom: 0;
 	width: 100%;
@@ -36,4 +46,17 @@
 
 button[type="submit"] {
   margin: auto 17px;
+}
+
+.container{
+  padding-bottom: auto;
+}
+
+.content{
+  position: relative;
+  margin-bottom: 413px;
+}
+
+textarea{
+  resize: none;
 }
